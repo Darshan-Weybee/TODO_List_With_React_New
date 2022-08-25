@@ -1,38 +1,120 @@
-.App {
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.App{
+  margin : auto;
+  width: 40%;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1{
+  margin: 2rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.inputElement{
+  width: 100%;
+  margin:  2rem auto 3rem auto;
+  height: 1.6rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.inputElement:focus{
+  box-shadow: 5px 3px 5px grey;
+  outline: none;
+  border: 2px solid grey;
+}
+
+.control{
+  margin: 0 auto 2rem auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.control .addbtn{
+  width: 2.1rem;
+  height: 1.6rem;
+  border-radius: 0.3rem;
+  background: none;
+}
+
+.control .searchbtn{
+  width: 2.1rem;
+  height: 1.6rem;
+  border-radius: 0.3rem;
+  background: none;
+}
+
+.control .action{
+  border: 2px solid black;
+  border-radius: 0.3rem;
+}
+
+.control .sort{
+  border: 2px solid black;
+  border-radius: 0.3rem;
+}
+
+.stateButton{
+  background: none;
+}
+
+.control .state{
+  border: 2px solid black;
+  padding:  0.2rem;
+  border-radius: 0.3rem;
+}
+
+.control .allbtn{
+  border: none;
+  margin-right: 0.4rem;
+  background: none;
+}
+
+.control .activebtn{
+  border: none;
+  margin-right: 0.4rem;
+  background: none;
+}
+
+.control .completedbtn{
+  border: none;
+  background: none;
+}
+
+.control .default{
+  border: 2px solid 
+}
+
+.control .active{
+  border: 2px solid rgb(0, 195, 0);
+}
+
+.editbtn{
+  background-color: yellowgreen;
+  border: none;
   color: white;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
 }
 
-.App-link {
-  color: #61dafb;
+.savebtn{
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.deletebtn{
+  background-color: #c50700;
+  border: none;
+  color: white;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+}
+
+.hidden{
+  display: none;
 }
