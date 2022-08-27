@@ -16,7 +16,7 @@ class TodoItem extends Component{
                 <div style = {this.myStyle}>
                     <div>
                         <input type="checkbox"  className="checkbox" id={`check-${this.props.ele.id}`} style={{marginRight: "0.3rem"}} onChange={this.props.changeCheckBox} checked={this.props.ele.checked}/>
-                        <span id={`span-${this.props.ele.id}`} className={(this.props.editClick && this.props.index === this.props.ele.id) ? "hidden" : ""}>{this.props.ele.title}</span>
+                        <span id={`span-${this.props.ele.id}`} className={`${(this.props.editClick && this.props.index === this.props.ele.id) ? "hidden" : ""} ${this.props.ele.checked ? "strike" : ""}`}>{this.props.ele.title}</span>
                         <input type="text" className={`editBox ${(this.props.editClick && this.props.index === this.props.ele.id) ? "" : "hidden"}`} id={`input-${this.props.ele.id}`} placeholder={this.props.ele.title} onKeyDown={this.props.changeTitle}/>
                     </div>
                     
