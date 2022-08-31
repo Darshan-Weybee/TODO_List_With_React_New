@@ -2,22 +2,21 @@ import React, { Component } from "react"
 import './App.css';
 import TodoItem from "./TodoItem";
 import Control from "./Control";
+import StatusBtn from "./StatusBtn";
+import NumberOfItems from "./NumberOfItems";
 
 class Main extends Component {
 
-    addFlag = true;
-    searchFlag = false;
     constructor(){
         super();
         this.inputRef = React.createRef();
         this.state = {
-            active: [],
-            complete : [],
             data : [],
             temp : [],
-            searchValue : "",
             activeFlag : false,
             completeFlag : false,
+            addFlag : false,
+            searchFlag : false,
             editClick : false,
             index: 0
         }
@@ -26,22 +25,21 @@ class Main extends Component {
     addBtnClickHandler = (e) => {
         this.inputRef.current.classList.remove("hidden")
         this.inputRef.current.focus();
-        this.addFlag = true;
-        this.searchFlag = false;
-        this.setState((pst) => ({...pst, temp : pst.data}))
+        this.setState((pst) => ({...pst, addFlag : true, searchFlag : false}))
+        this.tempUpdater();
         // Element.nextElementSibling
     }
 
     searchBtnClickHandler = (e) => {
         this.inputRef.current.classList.remove("hidden")
         this.inputRef.current.focus();
-        this.addFlag = false;
-        this.searchFlag = true;
+        this.setState((pst) => ({...pst, addFlag : false, searchFlag : true}))
         // Element.previousElementSibling 
     }
 
     searchText = (e) => {
-        if(!this.searchFlag) return;
+        console.log(e);
+        if(!this.state.searchFlag) return;
         let searchValue1 = this.inputRef.current.value;
 
         if(searchValue1 === ""){
@@ -50,11 +48,17 @@ class Main extends Component {
         }
         this.setState((pst) => ({
             ...pst,
-            temp : pst.data.filter(ele => ele.title === searchValue1)
+            temp : pst.data.filter(ele => 
+                {
+                    if(pst.activeFlag && ele.title === searchValue1) return ( ele.checked ? null : ele);
+                    else if(pst.completeFlag && ele.title === searchValue1) return ( ele.checked ? ele : null);
+                    else if(ele.title === searchValue1) return ele;
+                    return null;
+                })
         }))
     }
 
-    changeCheckBox = (e) => {  //================================
+    changeCheckBox = (e) => {
         let id = e.target.id.split("-")[1]
         this.setState((prevState) => ({
                 ...prevState,
@@ -115,7 +119,7 @@ class Main extends Component {
     }
 
     inputKeyPressEventHandler = (e) => {
-        if(!this.addFlag) return
+        if(!this.state.addFlag) return
         if(e.key!=="Enter" || e.target.value==="") return
         let tempid = this.state.data.length === 0 ? 1 : Math.max(...this.state.data.map(ele => ele.id))
         // let tempid = this.state.data.length === 0 ? 1 : this.state.data[this.state.data.length-1].id;
@@ -202,15 +206,20 @@ class Main extends Component {
         return (
             <div className="App">
                 <h1>TODO LIST</h1>
-                <input type="text" className="inputElement hidden" onKeyDown={this.inputKeyPressEventHandler} onInput={this.searchText} ref={this.inputRef}/>
-                <Control  addBtnClickHandler = {this.addBtnClickHandler} searchBtnClickHandler = {this.searchBtnClickHandler} actionHandler = {this.actionHandler} sortHandler = {this.sortHandler} btnClickHandler = {this.btnClickHandler} arr = {this.state.temp}/>
+
+                <StatusBtn btnClickHandler = {this.btnClickHandler} actionHandler = {this.actionHandler} sortHandler = {this.sortHandler} activeFlag={this.state.activeFlag} completeFlag={this.state.completeFlag}/>
+
+                <input type="text" className="inputElement hidden" onKeyDown={this.inputKeyPressEventHandler} onInput={this.searchText} ref={this.inputRef} placeholder={this.state.addFlag ?  "Add a task..." : "Search a task..."}/>
+
+                <Control  addBtnClickHandler = {this.addBtnClickHandler} searchBtnClickHandler = {this.searchBtnClickHandler} addFlag={this.state.addFlag} searchFlag={this.state.searchFlag}/>
+
+                <NumberOfItems arr = {this.state.temp}/>
                  
                 {
                     (this.state.temp.map((ele) => {
                        return <TodoItem  key = {ele.id} ele = {ele} changeCheckBox={this.changeCheckBox} editBtnHandler={this.editBtnHandler} deleteBtnHandler={this.deleteBtnHandler} editClick = {this.state.editClick} index = {this.state.index} saveBtnHandler={this.saveBtnHandler} changeTitle={this.changeTitle}/>
 
                 }))}
-
             </div>
         )
     }
